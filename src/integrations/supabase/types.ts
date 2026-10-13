@@ -14,7 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          expense_date: string
+          id: string
+          protein_g: number | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          expense_date?: string
+          id?: string
+          protein_g?: number | null
+          title: string
+          user_id?: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          expense_date?: string
+          id?: string
+          protein_g?: number | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          bulk_target: number
+          created_at: string
+          id: string
+          monthly_budget: number
+          protein_goal: number
+          updated_at: string
+        }
+        Insert: {
+          bulk_target?: number
+          created_at?: string
+          id: string
+          monthly_budget?: number
+          protein_goal?: number
+          updated_at?: string
+        }
+        Update: {
+          bulk_target?: number
+          created_at?: string
+          id?: string
+          monthly_budget?: number
+          protein_goal?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
