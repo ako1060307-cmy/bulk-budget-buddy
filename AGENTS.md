@@ -8,3 +8,4 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+- Budget math (burn rate, safe allowance, thresholds, category limits) lives in src/lib/metrics.ts with tests; keep UI free of formulas so rules stay testable.
