@@ -57,11 +57,11 @@ export function Dashboard({ userId, email }: { userId: string; email: string }) 
       title: form.title.trim(), amount: Number(form.amount), category: form.category,
       expense_date: form.expense_date, protein_g: form.protein_g === "" ? null : Number(form.protein_g),
     };
-    if (!payload.title || !(payload.amount >= 0)) return toast.error("Enter a title and amount");
+    if (!payload.title || !(payload.amount >= 0)) { toast.error("Enter a title and amount"); return; }
     const { error } = editingId
       ? await supabase.from("expenses").update(payload).eq("id", editingId)
       : await supabase.from("expenses").insert({ ...payload, user_id: userId });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(editingId ? "Expense updated" : "Expense logged");
     setForm({ ...emptyForm, expense_date: today() });
     setEditingId(null);
@@ -77,7 +77,7 @@ export function Dashboard({ userId, email }: { userId: string; email: string }) 
   async function remove(id: string) {
     if (!confirm("Delete this expense?")) return;
     const { error } = await supabase.from("expenses").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Deleted");
     load();
   }
@@ -87,7 +87,7 @@ export function Dashboard({ userId, email }: { userId: string; email: string }) 
     const fd = new FormData(e.currentTarget);
     const s = { monthly_budget: Number(fd.get("b")), bulk_target: Number(fd.get("t")), protein_goal: Number(fd.get("p")) };
     const { error } = await supabase.from("profiles").upsert({ id: userId, ...s });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setSettings(s);
     setSettingsOpen(false);
     toast.success("Settings saved");
@@ -233,7 +233,7 @@ export function Dashboard({ userId, email }: { userId: string; email: string }) 
   );
 }
 
-function Metric({ label, value, sub, tone }: { label: string; value: string; sub: string; tone?: "green" | "amber" | "red" }) {
+function Metric({ label, value, sub, tone }: { label: string; value: string; sub: string; tone?: "green" | "amber" | "red" | undefined }) {
   return (
     <div className="rounded-xl border bg-card p-4">
       <p className="text-xs uppercase tracking-wider text-muted-foreground">{label}</p>
